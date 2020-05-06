@@ -53,4 +53,23 @@ contract("CrapToken",function(accounts){
            assert.equal(balance.toNumber(),750000,'Balance of account after deduction');
        });
    });
+
+   it('Approves tokens for delegated transfer',function(){
+       return CrapToken.deployed().then(function(instance){
+           tokenInstance = instance;
+           return tokenInstance.approve.call(accounts[1],100);
+       }).then(function(success){
+           assert.equal(success,true,'it returns true');
+           return tokenInstance.approve(accounts[1],100,{ from: accounts[0] });
+       }).then(function(receipt){
+           assert.equal(receipt.logs.length,1,"Triggers only one Event");
+           assert.equal(receipt.logs[0].event,'Approval','It should be the Approval Event');
+           assert.equal(receipt.logs[0].args._owner,accounts[0],'Logs the Account the token are authorized by');
+           assert.equal(receipt.logs[0].args._spender,accounts[1],'Logs the account the token are authorized to');
+           assert.equal(receipt.logs[0].args._value, 100,'logs the transfer amount');
+           return tokenInstance.allowance(accounts[0],accounts[1]);
+       }).then(function(allowance){
+           assert.equal(allowance.toNumber(),100,'stores the allowance for delegated transfer');
+       });
+   });
 });
