@@ -3,7 +3,7 @@ pragma solidity >=0.4.21 <0.7.0;
 import "./SwapToken.sol";
 
 contract SwapTokenSale{
-    address admin;
+    address payable admin;
     SwapToken public tokenContract;
     uint256 public tokenPrice;
     uint256 public tokensSold;
@@ -28,5 +28,12 @@ contract SwapTokenSale{
         tokensSold += _numberOfTokens;
 
         emit Sell(msg.sender, _numberOfTokens);
+    }
+
+    function endSale() public {
+        require(msg.sender == admin,"Only admin must end the sale");
+        require(tokenContract.transfer(admin, tokenContract.balanceOf(address(this))),"Transfer back the Available tokens");
+
+        selfdestruct(admin);
     }
 }
