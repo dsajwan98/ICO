@@ -1,12 +1,12 @@
 pragma solidity >=0.4.21 <0.7.0;
 
-contract CrapToken{
+contract SwapToken{
     //Name of token
-    string public name = 'Crap Token';
+    string public name = 'Swap Token';
     //Symbol
-    string public symbol = 'Crap';
+    string public symbol = 'Swap';
     //Version
-    string public standard = 'Crap Token v1.0';
+    string public standard = 'Swap Token v1.0';
     //Variables
     uint256 public totalSupply;
     mapping(address=>uint256) public balanceOf;

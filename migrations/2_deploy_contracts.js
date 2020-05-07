@@ -1,5 +1,5 @@
-const CrapToken = artifacts.require("./CrapToken.sol");
+const SwapToken = artifacts.require("./SwapToken.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(CrapToken,1000000);
+  deployer.deploy(SwapToken,1000000);
 };

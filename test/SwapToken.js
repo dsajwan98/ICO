@@ -1,24 +1,24 @@
-var CrapToken = artifacts.require("./CrapToken.sol");
+var SwapToken = artifacts.require("./SwapToken.sol");
 
-contract("CrapToken",function(accounts){
+contract("SwapToken",function(accounts){
     var tokenInstance;
    it('initializes the contract with the correct values',function(){
-       return CrapToken.deployed().then(function(instance){
+       return SwapToken.deployed().then(function(instance){
            tokenInstance=instance;
            return tokenInstance.name();
        }).then(function(name){
-          assert.equal(name,'Crap Token','has the correct name');
+          assert.equal(name,'Swap Token','has the correct name');
           return tokenInstance.symbol();
        }).then(function(symbol){
-           assert.equal(symbol,'Crap','Has the correct symbol');
+           assert.equal(symbol,'Swap','Has the correct symbol');
            return tokenInstance.standard();
        }).then(function(standard){
-           assert.equal(standard,'Crap Token v1.0','Has the correct symbol');
+           assert.equal(standard,'Swap Token v1.0','Has the correct symbol');
        });
    });
    
    it("Sets the number of tokens upon deployment",function(){
-       return CrapToken.deployed().then(function(instance){
+       return SwapToken.deployed().then(function(instance){
            tokenInstance = instance;
            return tokenInstance.totalSupply();
        }).then(function(totalSupply){
@@ -30,7 +30,7 @@ contract("CrapToken",function(accounts){
    });
    
    it("Transfers token ownership",function(){
-       return CrapToken.deployed().then(function(instance){
+       return SwapToken.deployed().then(function(instance){
            tokenInstance = instance;
            return tokenInstance.transfer.call(accounts[1],999999999999999);
        }).then(assert.fail).catch(function(error){
@@ -55,7 +55,7 @@ contract("CrapToken",function(accounts){
    });
 
    it('Approves tokens for delegated transfer',function(){
-       return CrapToken.deployed().then(function(instance){
+       return SwapToken.deployed().then(function(instance){
            tokenInstance = instance;
            return tokenInstance.approve.call(accounts[1],100);
        }).then(function(success){
@@ -74,7 +74,7 @@ contract("CrapToken",function(accounts){
    });
 
    it('handles delegated token transfers', function() {
-    return CrapToken.deployed().then(function(instance) {
+    return SwapToken.deployed().then(function(instance) {
       tokenInstance = instance;
       fromAccount = accounts[2];
       toAccount = accounts[3];
