@@ -5,53 +5,57 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Swap Token ICO Sale</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" 
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <style>
+      .carousel-size {
+        width:100%;
+        height:500px;
+      }
+    </style>
     <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" 
+      integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script src="js/web3.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/truffle-contract.min.js"></script>
+    
   </head>
   <body>
-    <div class="container" style="width: 650px;">
+    <header>
+        <div class="load-navbar">
+
+        </div>
+    </header>
+    <div class="container-fluid">
       <div class="row">
-        <div class="col-lg-12">
-            <h1 class="text-center">SWAP TOKEN ICO SALE</h1>
-            <hr/>
-            <br/>
-        </div>
-        <div id="loader">
-          <p class="text-center">Loading...</p>
-        </div>
-        <div id="content" class="text-center" style="display: none;">
-          <p>
-            Introducing "Swap Token" (SWAP)!
-            Token price is <span class="token-price"></span> Ether. You currently have <span class="swap-balance"></span>&nbsp;SWAP.
-          </p>
-          <br/>
-          <form onSubmit="App.buyTokens(); return false;" role="form">
-            <div class="form-group">
-              <div class="input-group">
-                <input id="numberOfTokens" class="form-control input-lg" type="number" name="number" value="1" min="1" pattern="[0-9]">
-                </input>
-                <span class="input-group-btn">
-                  <button type="submit" class="btn btn-primary btn-lg">Buy Tokens</button>
-                </span>
-              </div>
+        <div id="carouselExampleInterval" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active carousel-size" data-interval="2000">
+              <img src="./images/car_image1.jpg" class="d-block w-100 carousel-size" alt="...">
             </div>
-          </form>
-          <br>
-           <div class="progress">
-              <div id="progress" class="progress-bar progress-bar-striped active" aria-valuemin="0" aria-valuemax="100">
-              </div>
+            <div class="carousel-item carousel-size data-interval="2000">
+              <img src="./images/car_image2.jpg" class="d-block w-100 carousel-size" alt="...">
             </div>
-          <p><span class="tokens-sold"></span> / <span class="tokens-available"></span> tokens sold</p>
-          <hr>
-          <p id="accountAddress"></p>
+            <div class="carousel-item" data-interval="2000">
+              <img src="./images/car_image3.jpg" class="d-block w-100 carousel-size" alt="...">
+            </div>
+          </div>
+          <a class="carousel-control-prev" href="#carouselExampleInterval" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselExampleInterval" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
         </div>
       </div>
-    </div>  
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/web3.min.js"></script>
-    <script src="js/truffle-contract.min.js"></script>
-    <script src="js/app.js"></script>
+    </div>
+    <br>
+    <div class="text-center">
+      <button class="btn btn-primary btn-lg" onclick="location.href='buytoken.html'">Buy Token</button>
+    </div>
   </body>
 </html>

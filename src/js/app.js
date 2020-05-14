@@ -128,7 +128,10 @@ App = {
 }
 
 $(function() {
-  $(window).load(function() {
+  $(window).on("load",function() {
+    $('.load-navbar').load("navbar.html");
     App.init();
   })
 });
+
+
