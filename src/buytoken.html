@@ -7,13 +7,7 @@
     <title>Swap Token ICO Sale</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" 
     integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <style>
-      .carousel-size {
-        width:100%;
-        height:500px;
-      }
-    </style>
-    <!-- Bootstrap -->
+    <link rel="stylesheet" href="css/app.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" 
       integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
@@ -29,36 +23,39 @@
       </div>
     </header>
 
-    <div class="container-fluid" >
-        <div id="loader">
-          <p class="text-center">Loading...</p>
+    <div class="container-fluid text-center" >
+        <div class="row">
+          <div id="loader">
+            <p>Loading...</p>
+          </div>
         </div>
-    
-        <div id="content" class="text-center" style="display: none;">
-          <p>
-            Introducing "Swap Token" (SWAP)!
-            Token price is <span class="token-price"></span> Ether. You currently have <span class="swap-balance"></span>&nbsp;SWAP.
-          </p>
-          <br/>
-          <form onSubmit="App.buyTokens(); return false;" role="form">
-            <div class="form-group">
-              <div class="input-group">
-                <input id="numberOfTokens" class="form-control" type="number" name="number" value="1" min="1" pattern="[0-9]">
-                </input>
-                <span class="input-group-append" >
-                  <button type="submit" class="btn btn-primary">Buy Tokens</button>
-                </span>
+        <div class="row" id="content-row">
+          <div id="content" style="display: none;">
+            <p>
+              Introducing "Swap Token" (SWAP)!
+              Token price is <span class="token-price"></span> Ether. You currently have <span class="swap-balance"></span>&nbsp;SWAP.
+            </p>
+            <br/>
+            <form onSubmit="App.buyTokens(); return false;" role="form">
+              <div class="form-group">
+                <div class="input-group">
+                  <input id="numberOfTokens" class="form-control" type="number" name="number" value="1" min="1" pattern="[0-9]">
+                  </input>
+                  <span class="input-group-append" >
+                    <button type="submit" class="btn btn-primary">Buy Tokens</button>
+                  </span>
+                </div>
               </div>
-            </div>
-          </form>
-          <br>
-           <div class="progress">
-              <div id="progress" class="progress-bar progress-bar-striped progress-bar-animated" aria-valuemin="0" aria-valuemax="100">
+            </form>
+            <br>
+             <div class="progress">
+                <div id="progress" class="progress-bar progress-bar-striped progress-bar-animated" aria-valuemin="0" aria-valuemax="100">
+                </div>
               </div>
-            </div>
-          <p><span class="tokens-sold"></span> / <span class="tokens-available"></span> tokens sold</p>
-          <hr>
-          <p id="accountAddress"></p>
+            <p><span class="tokens-sold"></span> / <span class="tokens-available"></span> tokens sold</p>
+            <hr>
+            <p id="accountAddress"></p>
+          </div>
         </div>
       </div>
     </div> 
