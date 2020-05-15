@@ -128,10 +128,24 @@ App = {
 }
 
 $(function() {
-  $(window).on("load",function() {
+
+
     $('.load-navbar').load("navbar.html");
     App.init();
-  })
+    $('.load-footer').load("footer.html");
+
+    $('a.nav-item.nav-link').click(function(e) {
+
+      $('li.nav-item.active').removeClass('active');
+  
+      var $parent = $(this).parent();
+      $parent.addClass('active');
+      e.preventDefault();
+    });
+
+
+
+
 });
 
 
