@@ -75,6 +75,13 @@ App = {
     web3.eth.getCoinbase(function(err, account) {
       if(err === null) {
         App.account = account;
+        if(account == null){
+          $('#acc-row').hide();
+          $('.alert-danger').show();
+        }else{
+          $('#acc-row').show();
+          $('.alert-danger').hide();
+        }
         $('#accountAddress').html("Your Account: " + account);
       }
     })
@@ -128,24 +135,23 @@ App = {
 }
 
 $(function() {
-
-
-    $('.load-navbar').load("navbar.html");
+  $('.load-navbar').load("navbar.html");
+  $('.load-footer').load("footer.html");
+  $('#acc-row').hide();
+  $('.alert-danger').hide();
+  $(window).on('load',function(){
     App.init();
-    $('.load-footer').load("footer.html");
-
-    $('a.nav-item.nav-link').click(function(e) {
-
-      $('li.nav-item.active').removeClass('active');
-  
-      var $parent = $(this).parent();
-      $parent.addClass('active');
-      e.preventDefault();
-    });
-
-
-
-
+    $(function(){
+      var current = location.pathname;
+      $('nav li a').each(function(){
+          var $this = $(this);
+          // if the current path is like this link, make it active
+          if($this.attr('href') == current){
+              $this.addClass('active');
+          }
+        })
+    }); 
+  });
 });
 
 
