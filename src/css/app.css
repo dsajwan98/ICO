@@ -56,4 +56,47 @@ body {
     flex: 1 0 auto;
 }
 
+.home-progress{
+    width: 200px;
+    height:200px;
+    border-radius: 50%;
+    transform: rotate(-90deg);
+}
+
+#swap-balance-label{
+    width: 120px;
+    height: 25px;
+}
+#token-price-label{
+    width: 120px;
+    height: 25px;
+}
+
+.swap-balance{
+    width: 120px;
+    height: 25px;
+}
+.token-price{
+    width: 120px;
+    height: 25px;
+}
+
+#tokens-left-label{
+    width: 130px;
+    height: 50px;
+    font-size: 20px;
+    padding-top: 15px;
+}
+
+#tokens-left{
+    width: 130px;
+    height: 50px;
+    font-size: 20px;
+    padding-top: 15px;
+}
+
+#account-address{
+    height: 25px;
+}
+
  

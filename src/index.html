@@ -62,21 +62,28 @@
         <div class="col-lg-6 ml-5">
           <img src="images/profile.png" alt="profile photo" width="140" height="140">
           <h2>Logged in</h2>
-          <div id="accountAddress"></div>
-          <br>
+          <div id="accountAddress" class="badge badge-pill badge-light"></div>
+          <br><br>
           <button class="btn btn-primary btn-lg mb-3" onclick="location.href='buytoken.html'">Buy Token</button>
         </div>
-        <div class="col-mg-6">
-          <div class="text-center">
-            
-          </div>
+        <div class="col-lg-4">
+            <div class="media">
+              <div class="progress home-progress mt-2 ml-5">
+                <div id="progress" class=" progress-bar progress-bar-striped progress-bar-animated bg-danger" aria-valuemin="0" aria-valuemax="100">
+                </div>
+              </div>
+              <div class="media-body">
+                <div class="text-center mt-5">
+                  <div id="tokens-left-label" class="badge badge-pill badge-info">Tokens Left</div><br>
+                  <div id="tokens-left" class="badge badge-pill badge-light"></div>
+                </div>
+              </div>
+            </div>
         </div>
       </div>
-   
-        <div class="alert alert-danger row ml-5 mr-5" role="alert">
-          Please Login using Metamask!!!!!!!!!! 
-        </div>
-      
+    </div>
+    <div class="alert alert-danger row ml-5 mr-5" role="alert">
+      Please Login using Metamask!!!!!!!!!! 
     </div>
     <br>
     <footer>

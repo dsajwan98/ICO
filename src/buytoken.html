@@ -50,11 +50,20 @@
             </div>
           </div>
         </div>
-        <div class="row mt-5" id="content-row">
+        <br>
+        <div class="alert alert-danger row ml-5 mr-5" role="alert">
+          Please Login using Metamask!!!!!!!!!! 
+        </div>
+        <div class="row" id="content-row">
           <div id="content" style="display: none;">
+            <h1>BUY YOUR SWAP TOKEN</h1><br>
+            <p class="pt-2">
+              <span id="token-price-label" class="badge badge-pill badge-info">Token Price</span>
+              <span class="token-price badge badge-pill badge-light"></span>&nbsp;Ether
+            </p>
             <p>
-              Introducing "Swap Token" (SWAP)!
-              Token price is <span class="token-price"></span> Ether. You currently have <span class="swap-balance"></span>&nbsp;SWAP.
+              <span id="swap-balance-label" class="badge badge-pill badge-success">Your Swap Tokens</span>  
+              <span class="swap-balance badge badge-pill badge-light"></span>&nbsp;Swap
             </p>
             <br/>
             <form onSubmit="App.buyTokens(); return false;" role="form">
@@ -71,11 +80,16 @@
             <br>
              <div class="progress">
                 <div id="progress" class="progress-bar progress-bar-striped progress-bar-animated" aria-valuemin="0" aria-valuemax="100">
+                  
                 </div>
               </div>
-            <p><span class="tokens-sold"></span> / <span class="tokens-available"></span> tokens sold</p>
+              <br>
+            <p><span class="tokens-sold badge badge-pill badge-secondary"></span> / 
+              <span class="tokens-available badge badge-pill badge-secondary"></span> tokens sold</p>
             <hr>
-            <p id="accountAddress"></p>
+            <img src="images/profile.png" alt="profile photo" width="140" height="140">
+            <h2>Logged in</h2>
+            <p id="accountAddress" class="badge badge-pill badge-light"></p>
           </div>
         </div>
       </div>

@@ -98,6 +98,7 @@ App = {
       App.tokensSold = tokensSold.toNumber();
       $('.tokens-sold').html(App.tokensSold);
       $('.tokens-available').html(App.tokensAvailable);
+      $('#tokens-left').html(App.tokensAvailable - App.tokensSold);
 
       var progressPercent = (Math.ceil(App.tokensSold) / App.tokensAvailable) * 100;
       $('#progress').css('width', progressPercent + '%');
