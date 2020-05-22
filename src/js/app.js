@@ -143,15 +143,15 @@ $(function() {
   $(window).on('load',function(){
     App.init();
     $(function(){
-      var current = location.pathname;
+      var current =location.pathname.split("/")[2];
       $('nav li a').each(function(){
           var $this = $(this);
           // if the current path is like this link, make it active
-          if($this.attr('href') == current){
+          if($this.attr('href').split("/")[1] == current){
               $this.addClass('active');
           }
         })
-    }); 
+    });
   });
 });
 
