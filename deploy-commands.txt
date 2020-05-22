@@ -1,0 +1,4 @@
+tokenContract = new web3.eth.Contract(abi,tokenAddress)
+tokenContract.methods.balanceOf(admin).call()
+tokenContract.methods.balanceOf(tokenSaleAddress).call()
+tokenContract.methods.transfer(tokenSaleAddress,tokensAvailable).send({from:admin})
