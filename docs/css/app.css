@@ -99,4 +99,17 @@ body {
     height: 25px;
 }
 
+#about-img{
+    margin-left: 15%;
+}
+
+#about-txt{
+    padding-right: 15%;
+}
+
+@media only screen and (max-width: 400px) {
+    #about-img {
+      margin-left:0%;
+    }
+  }
  
