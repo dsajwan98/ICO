@@ -42,6 +42,14 @@ App = {
         App.listenForEvents();
         return App.render();
       });
+    });
+
+    $.getJSON("PasswordManager.json", function(passwordManager) {
+      App.contracts.PasswordManager = TruffleContract(passwordManager);
+      App.contracts.PasswordManager.setProvider(App.web3Provider);
+      App.contracts.PasswordManager.deployed().then(function(passwordManager) {
+        console.log("Swap Token Sale Address:", passwordManager.address);
+      });
     })
   },
 
@@ -50,6 +58,17 @@ App = {
   listenForEvents: function() {
     App.contracts.SwapTokenSale.deployed().then(function(instance) {
       instance.Sell({}, {
+        fromBlock: 0,
+        toBlock: 'latest',
+      }).watch(function(error, event) {
+        console.log("event triggered", event);
+        App.render();
+      })
+    });
+
+    App.contracts.PasswordManager.deployed().then( function(instance) {
+     
+      instance.credentialCreated({}, {
         fromBlock: 0,
         toBlock: 'latest',
       }).watch(function(error, event) {
@@ -114,6 +133,27 @@ App = {
         content.show();
       })
     });
+
+    App.contracts.PasswordManager.deployed().then(async (instance)=>{
+      const credentialCount = await instance.credentialCount();
+      const $credentialTemplate = $('.credentialTemplate');
+      for (var i = 1; i <= credentialCount.toNumber(); i++) {
+      // Fetch the task data from the blockchain
+      const credential = await instance.credentials(i);
+      const credentialId = credential[0].toNumber();
+      const credentialData = credential[1];
+      const isCredentialDeleted = credential[3];
+
+      // Create the html for the task
+      const $newCredentialTemplate = $credentialTemplate.clone();
+      $newCredentialTemplate.find('.credentialListId').html(credentialId);
+      $newCredentialTemplate.find('.credentialListData').html(credentialData);
+     
+      $('#credentialList').append($newCredentialTemplate);
+    
+      $newCredentialTemplate.show();
+    }
+    })
   },
 
   buyTokens: function() {
@@ -128,6 +168,19 @@ App = {
       });
     }).then(function(result) {
       console.log("Tokens bought...")
+      $('form').trigger('reset') // reset number of tokens in form
+      // Wait for Sell event
+    });
+  },
+
+  createCredential: function() {
+    $('#content').hide();
+    $('#loader').show();
+    var credentialData = $('#credentialInput').val();
+    App.contracts.PasswordManager.deployed().then(function(instance) {
+      return instance.createCredential(credentialData);
+    }).then(function(result) {
+      console.log("Credentials Saved...")
       $('form').trigger('reset') // reset number of tokens in form
       // Wait for Sell event
     });
@@ -150,9 +203,21 @@ $(function() {
           if($this.attr('href').split("/")[1] == current){
               $this.addClass('active');
           }
-        })
+        });
+        $('.btnReveal').on('click',function(){
+          alert($(this).prev().first().html());
+        });
     });
   });
 });
 
-
+/*
+//<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js">
+// Try edit message
+var message = 'Hell';  
+var key= '3241a9fb6ac2d20421404fdcbd421da1832336d3d7f4340f4b3dae756b222af1';
+var encrypted = CryptoJS.AES.encrypt(message, key);  
+console.log(encrypted.toString());
+var decrypted = CryptoJS.AES.decrypt(encrypted, '3241a9fb6ac2d20421404fdcbd421da1832336d3d7f4340f4b3dae756b222af1');
+console.log(decrypted.toString(CryptoJS.enc.Utf8));
+*/

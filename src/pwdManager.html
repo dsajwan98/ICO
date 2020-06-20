@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SWAP Password Manager</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" 
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/app.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" 
+      integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script src="js/web3.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/truffle-contract.min.js"></script>
+    
+  </head>
+  <body>
+    <header>
+      <div class="load-navbar">
+    
+      </div>
+    </header>
+    <br>
+    <div class="container-fluid text-center temp-content" >
+        <div class="row mt-5">
+          <div id="loader" class="text-center">
+            <div class="spinner-grow text-secondary" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+            <div class="spinner-grow text-success" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+            <div class="spinner-grow text-primary" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+            <div class="spinner-grow text-warning" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+            <div class="spinner-grow text-info" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+            <div class="spinner-grow text-danger" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+            <div class="spinner-grow text-dark" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="alert alert-danger row ml-5 mr-5" role="alert">
+          Please Login using Metamask!!!!!!!!!! 
+        </div>
+        <div class="row" id="content-row">
+          <div id="content" style="display: none;">
+            <h1>Password Manager</h1><br>
+            <br/>
+            <form onSubmit="App.createCredential(); return false;" role="form">
+                <div class="form-group">
+                  <label for="credentialInput">Enter your Credential</label>
+                  <input type="text" class="form-control" id="credentialInput">
+                  <small id="credentialHelp" class="form-text text-muted">We'll never share your data with anyone else.</small>
+                </div>
+                <div class="form-group">
+                  <label for="privateKey">Enter your Private Key</label>
+                  <input type="password" class="form-control" id="privateKey">
+                </div>
+                <button type="submit" class="btn btn-primary">Save Credential</button>
+            </form>
+            <br>
+            <ul id="credentialList" class="list-unstyled">
+                <div class="credentialTemplate" class="checkbox" style="display: none">
+                    <div class="card">
+                        <h5 class="credentialListId card-header">Credential ID</h5>
+                        <a href="#" class="btnReveal btn btn-warning"  data-toggle="modal" data-target="#staticBackdrop">CLICK TO REVEAL</a>
+                        <div class="card-body">
+                          <h5 class="credentialListData card-title">Encrypted Data</h5>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </ul>
+    
+  
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body">
+                    ...
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Understood</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+            
+            <hr>
+            <img src="images/profile.png" alt="profile photo" width="140" height="140">
+            <h2>Logged in</h2>
+            <p id="accountAddress" class="badge badge-pill badge-light"></p>
+          </div>
+        </div>
+      </div>
+    </div> 
+    <br>
+    <footer>
+      <div class = "load-footer">
+
+      </div>
+    </footer>
+
+  </body>
+</html>
