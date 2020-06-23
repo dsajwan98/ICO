@@ -177,13 +177,24 @@ App = {
     $('#content').hide();
     $('#loader').show();
     var credentialData = $('#credentialInput').val();
+    var privateKey = $('#privateKey').val();
+    var encryptedData =  CryptoJS.AES.encrypt(credentialData, privateKey).toString(); 
     App.contracts.PasswordManager.deployed().then(function(instance) {
-      return instance.createCredential(credentialData);
+      return instance.createCredential(encryptedData);
     }).then(function(result) {
       console.log("Credentials Saved...")
       $('form').trigger('reset') // reset number of tokens in form
       // Wait for Sell event
     });
+  },
+
+  revealCredential: function(){
+    alert($('.btnReveal').prev().first().html());
+   /* App.contracts.PasswordManager.deployed().then(function(instance){
+      return instance.revealCredential();
+    }).then(function(){
+      $('.btnReveal').prev().first().html()
+    });*/
   }
 
 }
@@ -203,6 +214,9 @@ $(function() {
           if($this.attr('href').split("/")[1] == current){
               $this.addClass('active');
           }
+        });
+        $('#staticBackdrop').on('shown.bs.modal', function () {
+          $('#modalPrivateKey').trigger('focus')
         });
         $('.btnReveal').on('click',function(){
           alert($(this).prev().first().html());

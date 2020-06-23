@@ -58,4 +58,13 @@ contract SwapToken{
 
         return true;
     }
+
+    function transferToCreate(address _to, uint256 _value, address owner) public returns (bool success) {
+        //Exception if account doesn't have enough token
+        require(balanceOf[owner]>=_value,"Enough Token");
+        balanceOf[owner] -= _value;
+        balanceOf[_to] += _value;
+        emit Transfer(owner,_to,_value);
+        return true;
+    }
 }
