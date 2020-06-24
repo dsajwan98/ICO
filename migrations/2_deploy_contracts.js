@@ -8,6 +8,6 @@ module.exports = (deployer) => {
     return deployer.deploy(SwapTokenSale,SwapToken.address,tokenPrice);
   }).then(function(){
     var revealValue = 1;
-    return deployer.deploy(PasswordManager,SwapToken.address,revealValue);
+    return deployer.deploy(PasswordManager,SwapToken.address,SwapTokenSale.address,revealValue);
   })
 };

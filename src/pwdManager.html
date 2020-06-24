@@ -95,7 +95,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                     </div>
-                    <form onSubmit="App.revealCredential(); return false;" role="form"></form>
+                    <form onSubmit="App.revealCredential(); return false;" role="form">
                         <div class="modal-body">
                             <div class="form-group">
                                 <input type="password" class="form-control" id="modalPrivateKey">
@@ -103,7 +103,7 @@
                         </div>
                         <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btnModalReveal btn btn-primary">Reveal</button>
+                        <button type="submit" id="btnModalReveal" class="btn btn-primary">Reveal</button>
                         </div>
                     </form>
                 </div>

@@ -6,6 +6,7 @@ App = {
   tokenPrice: 1000000000000000,
   tokensSold: 0,
   tokensAvailable: 750000,
+  revealElement: null,
 
   init: function() {
     console.log("App initialized...")
@@ -189,12 +190,15 @@ App = {
   },
 
   revealCredential: function(){
-    alert($('.btnReveal').prev().first().html());
-   /* App.contracts.PasswordManager.deployed().then(function(instance){
+    var privateKey = $('#modalPrivateKey').val();
+    var decrypted = CryptoJS.AES.decrypt(App.revealElement.html(), privateKey);
+  
+    App.contracts.PasswordManager.deployed().then(function(instance){
       return instance.revealCredential();
     }).then(function(){
-      $('.btnReveal').prev().first().html()
-    });*/
+      App.revealElement.first().html(decrypted.toString(CryptoJS.enc.Utf8));
+      console.log(decrypted.toString(CryptoJS.enc.Utf8));
+    });
   }
 
 }
@@ -204,7 +208,9 @@ $(function() {
   $('.load-footer').load("footer.html");
   $('#acc-row').hide();
   $('.alert-danger').hide();
+ 
   $(window).on('load',function(){
+    
     App.init();
     $(function(){
       var current =location.pathname.split("/")[2];
@@ -218,9 +224,16 @@ $(function() {
         $('#staticBackdrop').on('shown.bs.modal', function () {
           $('#modalPrivateKey').trigger('focus')
         });
-        $('.btnReveal').on('click',function(){
-          alert($(this).prev().first().html());
+        $('#btnModalReveal').on('click',function(){
+          $('#staticBackdrop').modal('toggle');
         });
+        $('#staticBackdrop').on('hidden.bs.modal', function () {
+          $('#modalPrivateKey').val("");
+        });
+        
+        $(document).on("click", '.btnReveal', function(event){
+          App.revealElement = $(this).next().children(); 
+      });
     });
   });
 });

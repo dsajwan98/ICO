@@ -5,6 +5,7 @@ import "./SwapTokenSale.sol";
 
 contract PasswordManager {
     SwapToken public tokenContract;
+    SwapTokenSale public tokenSaleContract;
     address payable receiver;
     uint256 public revealValue;
     uint256 public credentialCount;
@@ -25,22 +26,29 @@ contract PasswordManager {
         bool isDeleted
     );
 
-    constructor(SwapToken _tokenContract,uint256 _value) public{
+    constructor(SwapToken _tokenContract,SwapTokenSale _tokenSaleContract,uint256 _value) public{
         tokenContract = _tokenContract;
+        tokenSaleContract = _tokenSaleContract;
         receiver = msg.sender;
         revealValue = _value;
     }
 
-    function createCredential(string memory _value) public {
+    function createCredential(string memory _value) public{
         // Require a valid credential value
         require(bytes(_value).length > 0,"Must have some data");
         require(tokenContract.balanceOf(msg.sender) >= revealValue,"Admin must possess more tokens than demanded");
-        require(tokenContract.transferToCreate(address(tokenContract),revealValue,msg.sender),"Must transfer the requested tokens");
+        require(tokenContract.transferTokens(address(tokenSaleContract),revealValue,msg.sender),"Must transfer the requested tokens");
         // Increment credential count
         credentialCount ++;
         // Create the credential
         credentials[credentialCount] = Credential(credentialCount,_value, msg.sender, false);
         // Trigger an event
         emit credentialCreated(credentialCount, _value, msg.sender, false);
+    }
+
+    function revealCredential() public returns (bool){
+        require(tokenContract.balanceOf(msg.sender) >= revealValue,"Admin must possess more tokens than demanded");
+        require(tokenContract.transferTokens(address(tokenSaleContract),revealValue,msg.sender),"Must transfer the requested tokens");
+        return true;
     }
 }
