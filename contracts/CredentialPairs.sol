@@ -3,22 +3,24 @@ pragma solidity >=0.4.21 <0.7.0;
 import "./SwapToken.sol";
 import "./SwapTokenSale.sol";
 
-contract PasswordManager {
+contract CredentialPairs {
     SwapToken public tokenContract;
     SwapTokenSale public tokenSaleContract;
     uint256 public revealValue;
-    uint256 public credentialCount;
-    mapping(uint => Credential) public credentials;
+    uint256 public credentialPairCount;
+    mapping(uint => CredentialPair) public credentialPairs;
 
-    struct Credential {
-        uint id;
-        string credentialValue;
+    struct CredentialPair {
+        string accountName;
+        string key;
+        string value;
         address payable owner;
         bool isDeleted;
     }
 
-    event credentialCreated(
-        uint id,
+    event credentialPairCreated(
+        string accountName,
+        string key,
         string value,
         address payable owner,
         bool isDeleted
@@ -30,20 +32,22 @@ contract PasswordManager {
         revealValue = _value;
     }
 
-    function createCredential(string memory _value) public{
+    function createCredentialPair(string memory _accountName, string memory _key, string memory _value ) public{
         // Require a valid credential value
+        require(bytes(_accountName).length > 0,"Must have some data");
+        require(bytes(_key).length > 0,"Must have some data");
         require(bytes(_value).length > 0,"Must have some data");
         require(tokenContract.balanceOf(msg.sender) >= revealValue,"Admin must possess more tokens than demanded");
         require(tokenContract.transferTokens(address(tokenSaleContract),revealValue,msg.sender),"Must transfer the requested tokens");
         // Increment credential count
-        credentialCount ++;
+        credentialPairCount ++;
         // Create the credential
-        credentials[credentialCount] = Credential(credentialCount,_value, msg.sender, false);
+        credentialPairs[credentialPairCount] = CredentialPair(_accountName,_key, _value, msg.sender, false);
         // Trigger an event
-        emit credentialCreated(credentialCount, _value, msg.sender, false);
+        emit credentialPairCreated(_accountName,_key, _value, msg.sender, false);
     }
 
-    function revealCredential() public returns (bool){
+    function revealCredentialPair() public returns (bool){
         require(tokenContract.balanceOf(msg.sender) >= revealValue,"Admin must possess more tokens than demanded");
         require(tokenContract.transferTokens(address(tokenSaleContract),revealValue,msg.sender),"Must transfer the requested tokens");
         return true;

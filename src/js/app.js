@@ -7,6 +7,7 @@ App = {
   tokensSold: 0,
   tokensAvailable: 750000,
   revealElement: null,
+  nextRevealElement: null,
 
   init: function() {
     console.log("App initialized...")
@@ -40,18 +41,27 @@ App = {
         App.contracts.SwapToken.deployed().then(function(swapToken) {
           console.log("Swap Token Address:", swapToken.address);
         });
+      });
+    }).done(function(){
+      $.getJSON("PasswordManager.json", function(passwordManager) {
+        App.contracts.PasswordManager = TruffleContract(passwordManager);
+        App.contracts.PasswordManager.setProvider(App.web3Provider);
+        App.contracts.PasswordManager.deployed().then(function(passwordManager) {
+          console.log("Password Manager Address:", passwordManager.address);
+        });
+      });
+    }).done(function(){
+      $.getJSON("CredentialPairs.json", function(credentialPair) {
+        App.contracts.CredentialPairs= TruffleContract(credentialPair);
+        App.contracts.CredentialPairs.setProvider(App.web3Provider);
+        App.contracts.CredentialPairs.deployed().then(function(credentialPair) {
+          console.log("Credential Pair Address:", credentialPair.address);
+        });
         App.listenForEvents();
         return App.render();
       });
     });
-
-    $.getJSON("PasswordManager.json", function(passwordManager) {
-      App.contracts.PasswordManager = TruffleContract(passwordManager);
-      App.contracts.PasswordManager.setProvider(App.web3Provider);
-      App.contracts.PasswordManager.deployed().then(function(passwordManager) {
-        console.log("Swap Token Sale Address:", passwordManager.address);
-      });
-    })
+    
   },
 
 
@@ -68,7 +78,6 @@ App = {
     });
 
     App.contracts.PasswordManager.deployed().then( function(instance) {
-     
       instance.credentialCreated({}, {
         fromBlock: 0,
         toBlock: 'latest',
@@ -76,7 +85,17 @@ App = {
         console.log("event triggered", event);
         App.render();
       })
-    })
+    });
+
+    App.contracts.CredentialPairs.deployed().then( function(instance) {
+      instance.credentialPairCreated({}, {
+        fromBlock: 0,
+        toBlock: 'latest',
+      }).watch(function(error, event) {
+        console.log("event triggered", event);
+        App.render();
+      })
+    });
   },
 
   render: function() {
@@ -139,22 +158,45 @@ App = {
       const credentialCount = await instance.credentialCount();
       const $credentialTemplate = $('.credentialTemplate');
       for (var i = 1; i <= credentialCount.toNumber(); i++) {
-      // Fetch the task data from the blockchain
-      const credential = await instance.credentials(i);
-      const credentialId = credential[0].toNumber();
-      const credentialData = credential[1];
-      const isCredentialDeleted = credential[3];
+        // Fetch the task data from the blockchain
+        const credential = await instance.credentials(i);
+        const credentialId = credential[0].toNumber();
+        const credentialData = credential[1];
+        const isCredentialDeleted = credential[3];
 
-      // Create the html for the task
-      const $newCredentialTemplate = $credentialTemplate.clone();
-      $newCredentialTemplate.find('.credentialListId').html(credentialId);
-      $newCredentialTemplate.find('.credentialListData').html(credentialData);
-     
-      $('#credentialList').append($newCredentialTemplate);
-    
-      $newCredentialTemplate.show();
-    }
-    })
+        // Create the html for the task
+        const $newCredentialTemplate = $credentialTemplate.clone();
+        $newCredentialTemplate.find('.credentialListId').html(credentialId);
+        $newCredentialTemplate.find('.credentialListData').html(credentialData);
+      
+        $('#credentialList').append($newCredentialTemplate);
+      
+        $newCredentialTemplate.show();
+      }
+    });
+
+    App.contracts.CredentialPairs.deployed().then(async (instance)=>{
+      const credentialPairCount = await instance.credentialPairCount();
+      const $credentialPairTemplate = $('.credentialPairTemplate');
+      for (var i = 1; i <= credentialPairCount.toNumber(); i++) {
+        // Fetch the task data from the blockchain
+        const credentialPair = await instance.credentialPairs(i);
+        const credentialAccount= credentialPair[0];
+        const credentialKeyData = credentialPair[1];
+        const credentialValueData = credentialPair[2];
+        const credentialOwnerData = credentialPair[3];
+        const isCredentialDeleted = credentialPair[4];
+
+        // Create the html for the task
+        const $newCredentialPairTemplate = $credentialPairTemplate.clone();
+        $newCredentialPairTemplate.find('.credentialPairListAccount').html(credentialAccount);
+        $newCredentialPairTemplate.find('.credentialPairListKeyData').html(credentialKeyData);
+        $newCredentialPairTemplate.find('.credentialPairListValueData').html(credentialValueData);
+        $('#credentialPairList').append($newCredentialPairTemplate);
+      
+        $newCredentialPairTemplate.show();
+      }
+    });
   },
 
   buyTokens: function() {
@@ -199,7 +241,39 @@ App = {
       App.revealElement.first().html(decrypted.toString(CryptoJS.enc.Utf8));
       console.log(decrypted.toString(CryptoJS.enc.Utf8));
     });
+  },
+
+  createCredentialPair: function() {
+    $('#content').hide();
+    $('#loader').show();
+    var credentialAccount = $('#txtAccountInput').val();
+    var credentialKeyData = $('#txtKeyInput').val();
+    var credentialValueData = $('#txtValueInput').val();
+    var privateKey = $('#privateKey').val();
+    var encryptedKeyData =  CryptoJS.AES.encrypt(credentialKeyData, privateKey).toString();
+    var encryptedValueData =  CryptoJS.AES.encrypt(credentialValueData, privateKey).toString();  
+    App.contracts.CredentialPairs.deployed().then(function(instance) {
+      return instance.createCredentialPair(credentialAccount,encryptedKeyData,encryptedValueData);
+    }).then(function(result) {
+      console.log("Credential Pair Saved...")
+      $('form').trigger('reset') // reset number of tokens in form
+      // Wait for Sell event
+    });
+  },
+
+  revealCredentialPair: function(){
+    var privateKey = $('#modalPrivateKey').val();
+    var decryptedKey = CryptoJS.AES.decrypt(App.revealElement.innerHTML, privateKey);
+    var decryptedValue = CryptoJS.AES.decrypt(App.nextRevealElement.innerHTML, privateKey);
+  
+    App.contracts.CredentialPairs.deployed().then(function(instance){
+      return instance.revealCredentialPair();
+    }).then(function(){
+      App.revealElement.innerHTML=decryptedKey.toString(CryptoJS.enc.Utf8);
+      App.nextRevealElement.innerHTML=decryptedValue.toString(CryptoJS.enc.Utf8);
+    });
   }
+
 
 }
 
@@ -233,7 +307,22 @@ $(function() {
         
         $(document).on("click", '.btnReveal', function(event){
           App.revealElement = $(this).next().children(); 
-      });
+        });
+
+        $('#pairRevealModal').on('shown.bs.modal', function () {
+          $('#modalPrivateKey').trigger('focus')
+        });
+        $('#btnModalReveal').on('click',function(){
+          $('#pairRevealModal').modal('toggle');
+        });
+        $('#pairRevealModal').on('hidden.bs.modal', function () {
+          $('#modalPrivateKey').val("");
+        });
+        
+        $(document).on("click", '.btnPairReveal', function(event){
+          App.revealElement = $(this).first().next().children()[0];
+          App.nextRevealElement = $(this).first().next().children()[2];
+        });
     });
   });
 });
