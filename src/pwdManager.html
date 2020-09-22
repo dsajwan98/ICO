@@ -56,33 +56,43 @@
         </div>
         <div class="row" id="content-row">
           <div id="content" style="display: none;">
-            <h1>Password Manager</h1><br>
-            <br/>
-            <form onSubmit="App.createCredential(); return false;" role="form">
-                <div class="form-group">
-                  <label for="credentialInput">Enter your Credential</label>
-                  <input type="text" class="form-control" id="credentialInput">
-                  <small id="credentialHelp" class="form-text text-muted">We'll never share your data with anyone else.</small>
+            <div class="d-flex flex-wrap justify-content-around col-lg-12 content-form-cont">
+              <div>
+                <h1>Password Manager</h1>
+                <hr>
+                <div class="d-flex align-items-center text-left">
+                  <img src="images/profile.png" alt="profile photo" width="60" height="60">
+                  <div class="ml-2">
+                    <h4 class="mb-0">Logged in</h4>
+                    <p id="accountAddress" class="badge badge-pill badge-light p-0 m-0"></p>
+                  </div>
                 </div>
-                <div class="form-group">
-                  <label for="privateKey">Enter your Private Key</label>
-                  <input type="password" class="form-control" id="privateKey">
-                </div>
-                <button type="submit" class="btn btn-primary">Save Credential</button>
-            </form>
-            <br>
-            <ul id="credentialList" class="list-unstyled">
-                <div class="credentialTemplate" class="checkbox" style="display: none">
-                    <div class="card">
-                        <h5 class="credentialListId card-header">Credential ID</h5>
-                        <a href="#" class="btnReveal btn btn-warning"  data-toggle="modal" data-target="#staticBackdrop">CLICK TO REVEAL</a>
-                        <div class="card-body">
-                          <h5 class="credentialListData card-title">Encrypted Data</h5>
-                        </div>
+                <form class="pt-4" onSubmit="App.createCredential(); return false;" role="form">
+                    <div class="form-group">
+                      <label for="credentialInput">Enter your Credential</label>
+                      <input type="text" class="form-control" id="credentialInput">
+                      <small id="credentialHelp" class="form-text text-muted">We'll never share your data with anyone else.</small>
                     </div>
-                    <br>
-                </div>
-            </ul>
+                    <div class="form-group">
+                      <label for="privateKey">Enter your Private Key</label>
+                      <input type="password" class="form-control" id="privateKey">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Credential</button>
+                </form>
+              </div>
+              <ul id="credentialList" class="cred-list list-unstyled">
+                  <!-- <div class="credentialTemplate" class="checkbox" style="display: none">
+                      <div class="card">
+                          <h5 class="credentialListId card-header">Credential ID</h5>
+                          <a href="#" class="btnReveal btn btn-warning"  data-toggle="modal" data-target="#staticBackdrop">CLICK TO REVEAL</a>
+                          <div class="card-body">
+                            <h5 class="credentialListData card-title">Encrypted Data</h5>
+                          </div>
+                      </div>
+                      <br>
+                  </div> -->
+              </ul>
+            </div>
     
   
             <!-- Modal -->
@@ -109,11 +119,6 @@
                 </div>
                 </div>
             </div>
-            
-            <hr>
-            <img src="images/profile.png" alt="profile photo" width="140" height="140">
-            <h2>Logged in</h2>
-            <p id="accountAddress" class="badge badge-pill badge-light"></p>
           </div>
         </div>
       </div>

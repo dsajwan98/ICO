@@ -156,46 +156,78 @@ App = {
 
     App.contracts.PasswordManager.deployed().then(async (instance)=>{
       const credentialCount = await instance.credentialCount();
-      const $credentialTemplate = $('.credentialTemplate');
-      for (var i = 1; i <= credentialCount.toNumber(); i++) {
+      // const $credentialTemplate = $('.credentialTemplate');
+      const credCountNum = credentialCount.toNumber();
+      let credArr = [];
+      for (var i = 1; i <= credCountNum; i++) {
         // Fetch the task data from the blockchain
         const credential = await instance.credentials(i);
         const credentialId = credential[0].toNumber();
         const credentialData = credential[1];
-        const isCredentialDeleted = credential[3];
+        // const isCredentialDeleted = credential[3];
 
         // Create the html for the task
-        const $newCredentialTemplate = $credentialTemplate.clone();
-        $newCredentialTemplate.find('.credentialListId').html(credentialId);
-        $newCredentialTemplate.find('.credentialListData').html(credentialData);
+        // const $newCredentialTemplate = $credentialTemplate.clone();
+        // $newCredentialTemplate.find('.credentialListId').html(credentialId);
+        // $newCredentialTemplate.find('.credentialListData').html(credentialData);
+        // $('#credentialList').append($newCredentialTemplate);
       
-        $('#credentialList').append($newCredentialTemplate);
+        // $newCredentialTemplate.show();
       
-        $newCredentialTemplate.show();
+        let credElement = '<div class="credentialTemplate" class="checkbox">'+
+            '<div class="card">'+
+                '<h5 class="credentialListId card-header">'+credentialId+'</h5>'+
+                '<a href="#" class="btnReveal btn btn-warning"  data-toggle="modal" data-target="#staticBackdrop">CLICK TO REVEAL</a>'+
+                '<div class="card-body">'+
+                  '<h5 class="credentialListData card-title">'+credentialData+'</h5>'+
+                '</div>'+
+            '</div>'+
+            '<br>'+
+        '</div>';
+        credArr.push(credElement);
       }
+      $('#credentialList').html('');
+      credArr.forEach(arrEl => $('#credentialList').append(arrEl));
     });
 
     App.contracts.CredentialPairs.deployed().then(async (instance)=>{
       const credentialPairCount = await instance.credentialPairCount();
-      const $credentialPairTemplate = $('.credentialPairTemplate');
-      for (var i = 1; i <= credentialPairCount.toNumber(); i++) {
+      // const $credentialPairTemplate = $('.credentialPairTemplate');
+      const credPairCountNum = credentialPairCount.toNumber();
+      let credPairArr = [];
+      for (var i = 1; i <= credPairCountNum; i++) {
         // Fetch the task data from the blockchain
         const credentialPair = await instance.credentialPairs(i);
         const credentialAccount= credentialPair[0];
         const credentialKeyData = credentialPair[1];
         const credentialValueData = credentialPair[2];
-        const credentialOwnerData = credentialPair[3];
-        const isCredentialDeleted = credentialPair[4];
+        // const credentialOwnerData = credentialPair[3];
+        // const isCredentialDeleted = credentialPair[4];
 
         // Create the html for the task
-        const $newCredentialPairTemplate = $credentialPairTemplate.clone();
-        $newCredentialPairTemplate.find('.credentialPairListAccount').html(credentialAccount);
-        $newCredentialPairTemplate.find('.credentialPairListKeyData').html(credentialKeyData);
-        $newCredentialPairTemplate.find('.credentialPairListValueData').html(credentialValueData);
-        $('#credentialPairList').append($newCredentialPairTemplate);
+        // const $newCredentialPairTemplate = $credentialPairTemplate.clone();
+        // $newCredentialPairTemplate.find('.credentialPairListAccount').html(credentialAccount);
+        // $newCredentialPairTemplate.find('.credentialPairListKeyData').html(credentialKeyData);
+        // $newCredentialPairTemplate.find('.credentialPairListValueData').html(credentialValueData);
+        // $('#credentialPairList').append($newCredentialPairTemplate);
       
-        $newCredentialPairTemplate.show();
+        // $newCredentialPairTemplate.show();
+        
+        let credElement = '<div class="credentialPairTemplate">'+
+            '<div class="card">'+
+                '<h5 class="credentialPairListAccount card-header">'+credentialAccount+'</h5>'+
+                '<a href="#" class="btnPairReveal btn btn-warning"  data-toggle="modal" data-target="#pairRevealModal">CLICK TO REVEAL</a>'+
+                '<div class="card-body">'+
+                  '<h5 class="credentialPairListKeyData card-title">'+credentialKeyData+'</h5><hr>'+
+                  '<h5 class="credentialPairListValueData card-title">'+credentialValueData+'</h5>'+
+                '</div>'+
+            '</div>'+
+            '<br>'+
+        '</div>';
+        credPairArr.push(credElement);
       }
+      $('#credentialPairList').html('');
+      credPairArr.forEach(arrEl => $('#credentialPairList').append(arrEl));
     });
   },
 
