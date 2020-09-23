@@ -11,6 +11,16 @@
     margin:auto;
 }
 
+.cred-list {
+    max-height: calc(100vh - 120px);
+    overflow-y: scroll;
+    padding: 20px;
+}
+
+.content-form-cont {
+    width: calc(100vw - 60px);
+}
+
 #loader{
     margin:auto;
 }

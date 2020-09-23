@@ -159,7 +159,7 @@ App = {
       // const $credentialTemplate = $('.credentialTemplate');
       const credCountNum = credentialCount.toNumber();
       let credArr = [];
-      for (var i = 1; i <= credCountNum; i++) {
+      for (var i=credCountNum; i>=1; i--) {
         // Fetch the task data from the blockchain
         const credential = await instance.credentials(i);
         const credentialId = credential[0].toNumber();
@@ -195,7 +195,7 @@ App = {
       // const $credentialPairTemplate = $('.credentialPairTemplate');
       const credPairCountNum = credentialPairCount.toNumber();
       let credPairArr = [];
-      for (var i = 1; i <= credPairCountNum; i++) {
+      for (var i=credPairCountNum; i>=1; i--) {
         // Fetch the task data from the blockchain
         const credentialPair = await instance.credentialPairs(i);
         const credentialAccount= credentialPair[0];
@@ -253,6 +253,7 @@ App = {
     $('#loader').show();
     var credentialData = $('#credentialInput').val();
     var privateKey = $('#privateKey').val();
+    privateKey = CryptoJS.SHA256(privateKey.substring(0,10)).toString();
     var encryptedData =  CryptoJS.AES.encrypt(credentialData, privateKey).toString(); 
     App.contracts.PasswordManager.deployed().then(function(instance) {
       return instance.createCredential(encryptedData);
@@ -265,6 +266,7 @@ App = {
 
   revealCredential: function(){
     var privateKey = $('#modalPrivateKey').val();
+    privateKey = CryptoJS.SHA256(privateKey.substring(0,10)).toString();
     var decrypted = CryptoJS.AES.decrypt(App.revealElement.html(), privateKey);
   
     App.contracts.PasswordManager.deployed().then(function(instance){
@@ -282,6 +284,7 @@ App = {
     var credentialKeyData = $('#txtKeyInput').val();
     var credentialValueData = $('#txtValueInput').val();
     var privateKey = $('#privateKey').val();
+    privateKey = CryptoJS.SHA256(privateKey.substring(32.42)).toString();
     var encryptedKeyData =  CryptoJS.AES.encrypt(credentialKeyData, privateKey).toString();
     var encryptedValueData =  CryptoJS.AES.encrypt(credentialValueData, privateKey).toString();  
     App.contracts.CredentialPairs.deployed().then(function(instance) {
@@ -295,6 +298,7 @@ App = {
 
   revealCredentialPair: function(){
     var privateKey = $('#modalPrivateKey').val();
+    privateKey = CryptoJS.SHA256(privateKey.substring(32,42)).toString();
     var decryptedKey = CryptoJS.AES.decrypt(App.revealElement.innerHTML, privateKey);
     var decryptedValue = CryptoJS.AES.decrypt(App.nextRevealElement.innerHTML, privateKey);
   

@@ -262,7 +262,10 @@ App = {
   
     revealCredential: function(){
       var privateKey = $('#modalPrivateKey').val();
-      var decrypted = CryptoJS.AES.decrypt(App.revealElement.html(), privateKey);
+      privateKey = CryptoJS.SHA256(privateKey.substring(0,10)).toString();
+      var decrypted = CryptoJS.AES.decrypt(App.revealElement.html(), privateKey, {
+        mode: CryptoJS.mode.CTR
+      });
     
       App.contracts.PasswordManager.deployed().then(function(instance){
         return instance.revealCredential();
